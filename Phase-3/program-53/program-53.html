@@ -1,0 +1,36 @@
+// HTML structure for this program:
+<!DOCTYPE html>
+<html>
+<head>
+ <title>DOM Attributes and Classes</title>
+ <style>
+ .box { width: 100px; height: 100px; background: #ddd; margin: 10px;
+}
+ .highlighted { border: 3px solid gold; }
+ .active { box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+ .enabled { opacity: 1; }
+ .dark-mode { background: #333 !important; color: white; }
+ .clicked { background: #4CAF50; color: white; }
+ .expert { background: #2196F3; font-weight: bold; }
+ .updated { animation: pulse 0.5s; }
+ @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+ </style>
+</head>
+<body>
+ <h1>Attributes and Classes Demo</h1>
+ <img id="demo-image" src="placeholder.jpg" alt="Demo image" dataid="img-123">
+
+ <div id="user-card" data-user-id="42" data-user-role="admin">
+ User Card
+ </div>
+
+ <div id="demo-box" class="box">Old Way</div>
+ <div id="modern-box" class="box">Modern Way</div>
+ <div id="styled-element">Styled Element</div>
+
+ <button id="interactive-btn" data-clicks="0">Click Me</button>
+ <div id="status">Not clicked yet</div>
+
+ <script src="program53.js"></script>
+</body>
+</html>

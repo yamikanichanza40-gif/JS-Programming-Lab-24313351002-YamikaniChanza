@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>DOM Creation and Removal</title>
+ <style>
+ .dynamic-box { background: #e3f2fd; padding: 10px; margin: 10px; }
+ .inserted-before { background: #fff3e0; padding: 5px; }
+ .inserted-after { background: #e8f5e9; padding: 5px; }
+ .prepended { background: #fce4ec; padding: 5px; }
+ .appended { background: #f3e5f5; padding: 5px; }
+ .replacement { background: #ffeb3b; padding: 10px; }
+
+ .dynamic-item {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ padding: 8px;
+ margin: 5px 0;
+ background: #f5f5f5;
+ border-radius: 4
+ }
+ .dynamic-item.completed {
+ background: #c8e6c9;
+ text-decoration: line-through;
+ }
+ .item-text { flex: 1; }
+ .delete-btn, .edit-btn {
+ padding: 4px 8px;
+ cursor: pointer;
+ border: none;
+ border-radius: 3px;
+ }
+ .delete-btn { background: #ffcdd2; }
+ .edit-btn { background: #bbdefb; }
+ .delete-btn:hover { background: #ef9a9a; }
+ .edit-btn:hover { background: #90caf9; }
+ </style>
+</head>
+<body>
+ <h1>Element Creation and Removal</h1>
+
+ <div id="element-container" style="border: 1px solid #ccc; padding:
+10px; margin: 10px;">
+ <h3>Container</h3>
+ </div>
+ <div id="insertion-target" style="border: 2px solid green; padding: 10px;
+margin: 20px 0;">
+ <strong>Insertion Target</strong> - Original Content
+ </div>
+
+ <ul id="parent-list">
+ <li>First Item</li>
+ <li>Second Item</li>
+ <li>Third Item</li>
+ </ul>
+
+ <div id="clone-source" style="border: 1px dashed blue; padding: 10px;
+margin: 10px;">
+ <strong>Original Element</strong>
+ <p>This content will be cloned</p>
+ </div>
+
+ <div id="remove-me" style="background: #ffcdd2; padding: 10px;">
+ I will be removed!
+ </div>
+
+ <div id="parent-for-removal">
+ <div id="child-to-remove">Remove this child</div>
+ <div>Keep this child</div>
+ </div>
+
+ <div id="old-element">I am old and will be replaced</div>
+
+ <hr>
+
+ <h2>Dynamic List Builder</h2>
+ <div id="list-builder">
+ <input type="text" id="item-input" placeholder="Enter item...">
+ <button id="add-item-btn">Add Item</button>
+ <button id="clear-items-btn">Clear All</button>
+ <p>Total items: <span id="item-count">0</span></p>
+ <ul id="dynamic-list"></ul>
+ </div>
+
+ <hr>
+
+ <h2>Performance Test</h2>
+ <div id="fragment-demo"></div>
+
+ <script src="program54.js"></script>
+</body>
+</html>

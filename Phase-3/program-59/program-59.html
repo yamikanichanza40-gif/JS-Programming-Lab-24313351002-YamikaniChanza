@@ -1,0 +1,310 @@
+
+/*
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Form Validation with RegEx</title>
+ <style>
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+ body {
+ font-family: 'Segoe UI', Arial, sans-serif;
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ min-height: 100vh;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ padding: 20px;
+ }
+
+ .form-container {
+ background: white;
+ border-radius: 16px;
+ box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+ padding: 40px;
+ max-width: 600px;
+ width: 100%;
+ }
+
+ h2 {
+ margin-bottom: 30px;
+ color: #333;
+ text-align: center;
+ }
+
+ .form-group {
+ margin-bottom: 24px;
+ position: relative;
+ }
+
+ .form-group label {
+ display: block;
+ margin-bottom: 8px;
+ font-weight: 600;
+ color: #555;
+ font-size: 14px;
+ }
+
+ .input-wrapper {
+ position: relative;
+ }
+
+ .form-group input {
+ width: 100%;
+ padding: 12px 40px 12px 16px;
+ border: 2px solid #e0e0e0;
+ border-radius: 8px;
+ font-size: 16px;
+ transition: all 0.3s;
+ }
+
+ .form-group input:focus {
+ outline: none;
+ border-color: #667eea;
+ box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+ }
+ form-group.valid input {
+ border-color: #4CAF50;
+ }
+
+ .form-group.invalid input {
+ border-color: #f44336;
+ }
+
+ .validation-icon {
+ position: absolute;
+ right: 12px;
+ top: 50%;
+ transform: translateY(-50%);
+ font-size: 18px;
+ display: none;
+ }
+
+ .form-group.valid .success-icon {
+ display: inline;
+ color: #4CAF50;
+ }
+
+ .form-group.invalid .error-icon {
+ display: inline;
+ color: #f44336;
+ }
+
+ .field-error {
+ color: #f44336;
+ font-size: 12px;
+ margin-top: 5px;
+ min-height: 18px;
+ }
+
+ .password-strength-container {
+ margin-top: 8px;
+ }
+
+ .strength-bar-bg {
+ height: 4px;
+ background: #e0e0e0;
+ border-radius: 2px;
+ overflow: hidden;
+ }
+
+ .strength-bar {
+ height: 100%;
+ width: 0%;
+ transition: width 0.3s, background 0.3s;
+ }
+ strength-text {
+ font-size: 12px;
+ margin-top: 4px;
+ text-align: right;
+ }
+
+ .form-row {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 16px;
+ }
+
+ .form-actions {
+ display: flex;
+ gap: 16px;
+ margin-top: 32px;
+ }
+
+ .btn {
+ flex: 1;
+ padding: 14px;
+ border: none;
+ border-radius: 8px;
+ font-size: 16px;
+ font-weight: 600;
+ cursor: pointer;
+ transition: all 0.3s;
+ }
+
+ .btn-primary {
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ color: white;
+ }
+
+ .btn-primary:hover:not(:disabled) {
+ transform: translateY(-2px);
+ box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+ }
+
+ .btn-primary:disabled {
+ opacity: 0.5;
+ cursor: not-allowed;
+ }
+
+ .btn-secondary { 
+ background: #f5f5f5;
+ color: #666;
+ }
+ btn-secondary:hover {
+ background: #e0e0e0;
+ }
+
+
+ .success-message {
+ margin-top: 20px;
+ padding: 15px;
+ border-radius: 8px;
+ text-align: center;
+ display: none;
+ }
+
+ .success-message.show {
+ display: block;
+ background: #e8f5e9;
+ color: #2e7d32;
+ }
+
+ .required::after {
+ content: " *";
+ color: #f44336;
+ }
+ </style>
+</head>
+<body>
+    <div class="form-container">
+ <h2> Registration Form</h2>
+
+ <form id="validation-form">
+ <div class="form-group">
+ <label class="required">Username</label>
+ <div class="input-wrapper">
+ <input type="text" id="username" name="username" datavalidate placeholder="johndoe123">
+ <span class="validation-icon success-icon">✓</span>
+ <span class="validation-icon error-icon">✗</span>
+ </div>
+ <div class="field-error"></div>
+ </div>
+
+ <div class="form-group">
+ <label class="required">Email</label>
+ <div class="input-wrapper">
+ <input type="email" id="email" name="email" data-validate
+placeholder="john@example.com">
+ <span class="validation-icon success-icon">✓</span>
+ <span class="validation-icon error-icon">✗</span>
+ </div>
+ <div class="field-error"></div>
+ </div>
+ <div class="form-group">
+ <label class="required">Password</label>
+ <div class="input-wrapper">
+ <input type="password" id="password" name="password"
+data-validate placeholder="••••••••">
+ <span class="validation-icon success-icon">✓</span>
+ <span class="validation-icon error-icon">✗</span>
+ </div>
+ <div class="password-strength-container">
+ <div class="strength-bar-bg">
+ <div class="strength-bar" id="password-strength"></div>
+ </div>
+ <div class="strength-text" id="strength-text"></div>
+ </div>
+ <div class="field-error"></div>
+ </div>
+
+ <div class="form-group">
+ <label class="required">Confirm Password</label>
+ <div class="input-wrapper">
+ <input type="password" id="confirmPassword"
+name="confirmPassword" data-validate placeholder="••••••••">
+ <span class="validation-icon success-icon">✓</span>
+ <span class="validation-icon error-icon">✗</span>
+ </div>
+ <div class="field-error"></div>
+ </div>
+
+ <div class="form-row">
+ <div class="form-group">
+ <label>Phone (Optional)</label>
+ <div class="input-wrapper">
+ <input type="tel" id="phone" name="phone" data-validate
+placeholder="(123) 456-7890">
+ <span class="validation-icon success-icon">✓</span>
+ <span class="validation-icon error-icon">✗</span>
+ </div>
+ <div class="field-error"></div>
+ </div>
+
+ <div class="form-group">
+ <label class="required">Age</label>
+ <div class="input-wrapper">
+ <input type="number" id="age" name="age" data-validate
+placeholder="18+">
+ <span class="validation-icon success-icon">✓</span>
+ <span class="validation-icon error-icon">✗</span>
+ </div>
+ <div class="field-error"></div>
+ </div>
+ </div>
+
+ <div class="form-group">
+ <label>Website (Optional)</label>
+ <div class="input-wrapper">
+ <input type="url" id="website" name="website" data-validate
+placeholder="https://example.com">
+ <span class="validation-icon success-icon">✓</span>
+ <span class="validation-icon error-icon">✗</span>
+ </div>
+ <div class="field-error"></div>
+ </div>
+
+ <div class="form-row">
+ <div class="form-group">
+ <label class="required">ZIP Code</label>
+ <div class="input-wrapper">
+ <input type="text" id="zipCode" name="zipCode" datavalidate placeholder="12345 or 12345-6789">
+ <span class="validation-icon success-icon">✓</span>
+ <span class="validation-icon error-icon">✗</span>
+ </div>
+ <div class="field-error"></div>
+ </div>
+ <div class="form-group">
+ <label>Credit Card (Optional)</label>
+ <div class="input-wrapper">
+ <input type="text" id="creditCard" name="creditCard"
+data-validate placeholder="1234 5678 9012 3456">
+ <span class="validation-icon success-icon">✓</span>
+ <span class="validation-icon error-icon">✗</span>
+ </div>
+ <div class="field-error"></div>
+ </div>
+ </div>
+
+ <div class="form-actions">
+ <button type="submit" class="btn btn-primary" id="submitbtn">Register</button>
+ <button type="button" class="btn btn-secondary" id="resetbtn">Reset</button>
+ </div>
+
+ <div class="success-message" id="success-message"></div>
+ </form>
+ </div>
+
+ <script src="program59.js"></script>
+ </body>
+</html>
+*/
